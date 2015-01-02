@@ -27,6 +27,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+//TODO: Serialisation, like in drtshock/factions. 
 public class AnnotationConfig extends CommandManager{
 
     /*
