@@ -18,6 +18,16 @@
         <finalName>Commandspy</finalName>
         <sourceDirectory>${basedir}/src</sourceDirectory>
         
+        <resources>
+            <resource>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+                <directory>${basedir}/res/</directory>
+                <includes>
+                    <include>*.yml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
