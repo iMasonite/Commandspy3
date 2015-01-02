@@ -25,9 +25,9 @@ import org.bukkit.command.CommandSender;
 import net.korikisulda.commandspy3.util.CommandManager;
 import net.korikisulda.commandspy3.util.CommandHandler;
 
-public class Command extends CommandManager{
+public class Commands extends CommandManager{
     private Main main;
-    public Command(Main main) {
+    public Commands(Main main) {
         this.main=main;
     }
 

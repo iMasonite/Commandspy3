@@ -35,7 +35,7 @@ public class Main extends JavaPlugin{
     public void onEnable(){
         load();
         Bukkit.getServer().getPluginManager().registerEvents(new EventListener(),this);
-        Bukkit.getServer().getPluginCommand("commandspy").setExecutor(new Command(this));
+        Bukkit.getServer().getPluginCommand("commandspy").setExecutor(new Commands(this));
     }
     
     @Override
