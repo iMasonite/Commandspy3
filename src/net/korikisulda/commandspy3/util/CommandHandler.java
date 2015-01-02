@@ -20,7 +20,7 @@ package net.korikisulda.commandspy3.util;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-    @Retention(RetentionPolicy.RUNTIME) public @interface command{
+    @Retention(RetentionPolicy.RUNTIME) public @interface CommandHandler{
         String[] permissions() default {};
         String[] alias() default {};
         String[] defaultArguments() default {};

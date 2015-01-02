@@ -91,7 +91,7 @@ public class AnnotationConfig extends CommandManager{
     }
     
     @Override
-    @command(
+    @CommandHandler(
         maximumArgsLength=0,
         description="null command"
         )
@@ -126,7 +126,7 @@ public class AnnotationConfig extends CommandManager{
         }  
     }
 
-    @command(
+    @CommandHandler(
             maximumArgsLength=1000,
             minimumArgsLength=2,
             usage="<name> <value>",
@@ -162,7 +162,7 @@ public class AnnotationConfig extends CommandManager{
     }
     
     @SuppressWarnings("unchecked")//Everything in Java extends Object. I don't need to check. Go away, javac.
-    @command(minimumArgsLength=2)
+    @CommandHandler(minimumArgsLength=2)
     public void add(CommandSender sender,String[] args) throws IllegalArgumentException, IllegalAccessException{
         if(getFieldCaseInsensitive(args[0]).get(this) instanceof List){
             ((List<Object>)getFieldCaseInsensitive(args[0]).get(this)).add(Util.join(args," ",1));

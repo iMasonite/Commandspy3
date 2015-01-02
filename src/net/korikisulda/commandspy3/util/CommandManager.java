@@ -33,7 +33,7 @@ public abstract class CommandManager implements CommandExecutor{
     
     {
         for(Method m : this.getClass().getMethods()) {
-            if(m.getAnnotation(command.class)!=null) {
+            if(m.getAnnotation(CommandHandler.class)!=null) {
                 commands.put(m.getName().toLowerCase(), m);
             }
         }
@@ -59,7 +59,7 @@ public abstract class CommandManager implements CommandExecutor{
     public void onSubCommand(CommandSender sender,String[] arguments,String commandName) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
         if(!commands.containsKey(commandName)) commandName="_notfound";
         Method m=commands.get(commandName);
-        command c=commands.get(commandName).getAnnotation(command.class);
+        CommandHandler c=commands.get(commandName).getAnnotation(CommandHandler.class);
         if(arguments==null) arguments=c.defaultArguments();
         
         if(!(sender instanceof Player)&&c.playerOnly()){
@@ -80,16 +80,16 @@ public abstract class CommandManager implements CommandExecutor{
         return;
     }
     
-    @command
+    @CommandHandler
     public void _null(CommandSender sender,String[] arguments) throws Exception{
         sender.sendMessage(ChatColor.RED + "You haven't specified a subcommand.");
     }
-    @command
+    @CommandHandler
     public void _notfound(CommandSender sender,String[] arguments) throws Exception{
         sender.sendMessage(ChatColor.RED + "That subcommand was not found.");
     }
     
-    @command(
+    @CommandHandler(
         maximumArgsLength=1,
         usage="[command]",
         description="displays help"
@@ -97,13 +97,13 @@ public abstract class CommandManager implements CommandExecutor{
     public void help(CommandSender sender,String[] args){
         for(Entry<String,Method> command:commands.entrySet()){
             if(command.getKey().startsWith("_")) continue;
-            command commandMeta=command.getValue().getAnnotation(command.class);
+            CommandHandler commandMeta=command.getValue().getAnnotation(CommandHandler.class);
             String colour=hasPerms(sender,commandMeta.permissions())?ChatColor.GREEN.toString():ChatColor.RED.toString();
             sender.sendMessage(colour + command.getKey() + " " + commandMeta.usage() + ChatColor.GRAY + " - " + commandMeta.description());
         }
     }
     
-    @command(permissions="korikisulda.stack")
+    @CommandHandler(permissions="korikisulda.stack")
     public void _stack(CommandSender sender,String[] arguments){
         Exception e=exceptions.pop();
         sender.sendMessage(ChatColor.RED + e.getMessage());
