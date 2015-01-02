@@ -17,8 +17,8 @@
  */
 package net.korikisulda.commandspy3;
 
+import net.korikisulda.commandspy3.util.ConfigInclude;
 import net.korikisulda.commandspy3.util.Util;
-import net.korikisulda.commandspy3.util.config;
 import net.korikisulda.commandspy3.util.AnnotationConfig;
 
 import org.bukkit.ChatColor;
@@ -29,19 +29,19 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
 public class Filter extends AnnotationConfig{
-    @config public String signFlag="";
-    @config public String commandFlag="";
+    @ConfigInclude public String signFlag="";
+    @ConfigInclude public String commandFlag="";
     
-    @config public boolean considerFlags=false;
+    @ConfigInclude public boolean considerFlags=false;
     
-    @config public String signNotifyFormat="&8[Sign]&7 %s&8:&e %s";
-    @config public String signNotifyLineDelimiter="・";
+    @ConfigInclude public String signNotifyFormat="&8[Sign]&7 %s&8:&e %s";
+    @ConfigInclude public String signNotifyLineDelimiter="・";
     
-    @config public String playerCommandNotifyFormat="&7%s&8: &b%s";
-    @config public String serverCommandNotifyFormat="&d%s";
+    @ConfigInclude public String playerCommandNotifyFormat="&7%s&8: &b%s";
+    @ConfigInclude public String serverCommandNotifyFormat="&d%s";
     
     
-    @config public boolean disable=false;
+    @ConfigInclude public boolean disable=false;
     public Filter() {
         
     }

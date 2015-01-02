@@ -34,7 +34,7 @@ public class AnnotationConfig extends CommandManager{
      */
     public ConfigurationSection save(ConfigurationSection c){
         for(Field f:this.getClass().getFields()){
-            if(f.isAnnotationPresent(config.class)){
+            if(f.isAnnotationPresent(ConfigInclude.class)){
                 try{
                     if(f.get(this) instanceof Location){
                         c.set(f.getName() + ".world", ((Location)f.get(this)).getWorld().getName());                
@@ -59,7 +59,7 @@ public class AnnotationConfig extends CommandManager{
 
     public void load(ConfigurationSection c){
         for(Field f:this.getClass().getFields()){
-            if(f.isAnnotationPresent(config.class)&&c.isSet(f.getName())){
+            if(f.isAnnotationPresent(ConfigInclude.class)&&c.isSet(f.getName())){
                 try{
                     if(f.get(this) instanceof String){
                         f.set(this, c.getString(f.getName()));
@@ -97,7 +97,7 @@ public class AnnotationConfig extends CommandManager{
         )
     public void _null(CommandSender sender,String[] args) throws IllegalArgumentException, IllegalAccessException{
         for(Field f:this.getClass().getFields()){
-            if(f.isAnnotationPresent(config.class)){
+            if(f.isAnnotationPresent(ConfigInclude.class)){
                 if(f.getType()==Location.class){
                     if(f.get(this)!=null){
                         sender.sendMessage(f.getName() + ": " + 
@@ -135,8 +135,8 @@ public class AnnotationConfig extends CommandManager{
     public void set(CommandSender sender,String[] args) throws NumberFormatException, IllegalArgumentException, IllegalAccessException{
         Field f=getFieldCaseInsensitive(args[0]);
 
-        if(f.isAnnotationPresent(config.class)){
-            if(f.getAnnotation(config.class).settable()==false) return;
+        if(f.isAnnotationPresent(ConfigInclude.class)){
+            if(f.getAnnotation(ConfigInclude.class).settable()==false) return;
             
                 if(f.get(this) instanceof String){
                     f.set(this, Util.join(args," ",1));

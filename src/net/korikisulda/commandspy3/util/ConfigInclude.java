@@ -20,7 +20,7 @@ package net.korikisulda.commandspy3.util;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-@Retention(RetentionPolicy.RUNTIME) public @interface config{
+@Retention(RetentionPolicy.RUNTIME) public @interface ConfigInclude{
     String usage() default "";
     boolean comparison() default false;
     boolean settable() default true;

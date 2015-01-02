@@ -20,10 +20,10 @@ package net.korikisulda.commandspy3;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.korikisulda.commandspy3.util.config;
 import net.korikisulda.commandspy3.util.AnnotationConfig;
+import net.korikisulda.commandspy3.util.ConfigInclude;
 
 public class Config extends AnnotationConfig{
-@config public List<String> ignore=new ArrayList<String>();
+@ConfigInclude public List<String> ignore=new ArrayList<String>();
 
 }
