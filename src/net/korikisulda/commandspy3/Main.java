@@ -21,50 +21,50 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin{
-	private Config config;
-	private FilterManager filterManager;
-	private static Main instance;
-	
-	public Main(){
-	    config=new Config();
-	    filterManager=new FilterManager(this);
-	    instance=this;
-	}
-	
-	@Override
-	public void onEnable(){
-	    load();
-		Bukkit.getServer().getPluginManager().registerEvents(new EventListener(),this);
-		Bukkit.getServer().getPluginCommand("commandspy").setExecutor(new Command(this));
-	}
-	
-	@Override
-	public void onDisable(){
-	    save();
-	}
-	
-	public static Main getInstance(){
-	    return instance;
-	}
-	
-	public Config getConfigManager(){
-	    return config;
-	}
-	
-	public FilterManager getFilterManager(){
-	    return filterManager;
-	}
-	
-	public void save(){
-	    config.save(getConfig());
-	    saveConfig();
-	    getFilterManager().saveFilters();
-	}
-	
-	public void load(){
-	    config.load(getConfig());
-	    getFilterManager().loadFilters();
-	}
+    private Config config;
+    private FilterManager filterManager;
+    private static Main instance;
+    
+    public Main(){
+        config=new Config();
+        filterManager=new FilterManager(this);
+        instance=this;
+    }
+    
+    @Override
+    public void onEnable(){
+        load();
+        Bukkit.getServer().getPluginManager().registerEvents(new EventListener(),this);
+        Bukkit.getServer().getPluginCommand("commandspy").setExecutor(new Command(this));
+    }
+    
+    @Override
+    public void onDisable(){
+        save();
+    }
+    
+    public static Main getInstance(){
+        return instance;
+    }
+    
+    public Config getConfigManager(){
+        return config;
+    }
+    
+    public FilterManager getFilterManager(){
+        return filterManager;
+    }
+    
+    public void save(){
+        config.save(getConfig());
+        saveConfig();
+        getFilterManager().saveFilters();
+    }
+    
+    public void load(){
+        config.load(getConfig());
+        getFilterManager().loadFilters();
+    }
 
 
 }
