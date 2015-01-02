@@ -17,6 +17,8 @@
  */
 package net.korikisulda.commandspy3;
 
+import net.korikisulda.commandspy3.filter.FilterManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

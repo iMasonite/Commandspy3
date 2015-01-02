@@ -22,6 +22,7 @@ import java.io.InvalidObjectException;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import net.korikisulda.commandspy3.filter.Filter;
 import net.korikisulda.commandspy3.util.CommandManager;
 import net.korikisulda.commandspy3.util.CommandHandler;
 

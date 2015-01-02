@@ -15,7 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.korikisulda.commandspy3;
+package net.korikisulda.commandspy3.filter;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +23,7 @@ import java.io.InvalidObjectException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import net.korikisulda.commandspy3.Main;
 import net.korikisulda.commandspy3.util.Util;
 
 import org.bukkit.command.CommandSender;
