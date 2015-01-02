@@ -17,6 +17,9 @@
  */
 package net.korikisulda.commandspy3.filter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.korikisulda.commandspy3.util.ConfigInclude;
 import net.korikisulda.commandspy3.util.Util;
 import net.korikisulda.commandspy3.util.AnnotationConfig;
@@ -39,6 +42,8 @@ public class Filter extends AnnotationConfig{
     
     @ConfigInclude public String playerCommandNotifyFormat="&7%s&8: &b%s";
     @ConfigInclude public String serverCommandNotifyFormat="&d%s";
+    
+    @ConfigInclude public List<String> ignore=new ArrayList<String>();
     
     
     @ConfigInclude public boolean disable=false;
@@ -69,11 +74,13 @@ public class Filter extends AnnotationConfig{
 
     public void onServerCommand(CommandSender s, ServerCommandEvent event) {
         if(disable) return;
+        if(ignore.contains(Util.sit(event.getCommand(), ' ', 0))) return;
         if(considerFlags&&commandFlag.equals("*")) s.sendMessage(format(serverCommandNotifyFormat,event.getCommand()));
     }
 
     public void onPlayerCommand(CommandSender s, PlayerCommandPreprocessEvent event) {
         if(disable) return;
+        if(ignore.contains(Util.sit(event.getMessage(), ' ', 0))) return;
         if(considerFlags&&commandFlag.equals("*")) s.sendMessage(format(playerCommandNotifyFormat,event.getPlayer().getName(),event.getMessage()));
     }
     
