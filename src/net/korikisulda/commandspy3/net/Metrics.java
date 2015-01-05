@@ -63,11 +63,6 @@ import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
@@ -98,11 +93,6 @@ public class Metrics {
      * The plugin this metrics submits for
      */
     private final Plugin plugin;
-
-    /**
-     * All of the custom graphs to submit to metrics
-     */
-    private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
 
     /**
      * The plugin configuration file
@@ -162,41 +152,6 @@ public class Metrics {
     }
 
     /**
-     * Construct and create a Graph that can be used to separate specific plotters to their own graphs on the metrics
-     * website. Plotters can be added to the graph object returned.
-     *
-     * @param name The name of the graph
-     * @return Graph object created. Will never return NULL under normal circumstances unless bad parameters are given
-     */
-    public Graph createGraph(final String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("Graph name cannot be null");
-        }
-
-        // Construct the graph object
-        final Graph graph = new Graph(name);
-
-        // Now we can add our graph
-        graphs.add(graph);
-
-        // and return back
-        return graph;
-    }
-
-    /**
-     * Add a Graph object to BukkitMetrics that represents data for the plugin that should be sent to the backend
-     *
-     * @param graph The name of the graph
-     */
-    public void addGraph(final Graph graph) {
-        if (graph == null) {
-            throw new IllegalArgumentException("Graph cannot be null");
-        }
-
-        graphs.add(graph);
-    }
-
-    /**
      * Start measuring statistics. This will immediately create an async repeating task as the plugin and send the
      * initial data to the metrics backend, and then after that it will post in increments of PING_INTERVAL * 1200
      * ticks.
@@ -228,10 +183,6 @@ public class Metrics {
                             if (isOptOut() && task != null) {
                                 task.cancel();
                                 task = null;
-                                // Tell all plotters to stop gathering information.
-                                for (Graph graph : graphs) {
-                                    graph.onOptOut();
-                                }
                             }
                         }
 
@@ -388,46 +339,6 @@ public class Metrics {
             appendJSONPair(json, "ping", "1");
         }
 
-        if (graphs.size() > 0) {
-            synchronized (graphs) {
-                json.append(',');
-                json.append('"');
-                json.append("graphs");
-                json.append('"');
-                json.append(':');
-                json.append('{');
-
-                boolean firstGraph = true;
-
-                final Iterator<Graph> iter = graphs.iterator();
-
-                while (iter.hasNext()) {
-                    Graph graph = iter.next();
-
-                    StringBuilder graphJson = new StringBuilder();
-                    graphJson.append('{');
-
-                    for (Plotter plotter : graph.getPlotters()) {
-                        appendJSONPair(graphJson, plotter.getColumnName(), Integer.toString(plotter.getValue()));
-                    }
-
-                    graphJson.append('}');
-
-                    if (!firstGraph) {
-                        json.append(',');
-                    }
-
-                    json.append(escapeJSON(graph.getName()));
-                    json.append(':');
-                    json.append(graphJson);
-
-                    firstGraph = false;
-                }
-
-                json.append('}');
-            }
-        }
-
         // close json
         json.append('}');
 
@@ -485,20 +396,7 @@ public class Metrics {
 
             throw new IOException(response);
         } else {
-            // Is this the first update this hour?
-            if (response.equals("1") || response.contains("This is your first update this hour")) {
-                synchronized (graphs) {
-                    final Iterator<Graph> iter = graphs.iterator();
-
-                    while (iter.hasNext()) {
-                        final Graph graph = iter.next();
-
-                        for (Plotter plotter : graph.getPlotters()) {
-                            plotter.reset();
-                        }
-                    }
-                }
-            }
+            
         }
     }
 
@@ -629,84 +527,6 @@ public class Metrics {
      */
     private static String urlEncode(final String text) throws UnsupportedEncodingException {
         return URLEncoder.encode(text, "UTF-8");
-    }
-
-    /**
-     * Represents a custom graph on the website
-     */
-    public static class Graph {
-
-        /**
-         * The graph's name, alphanumeric and spaces only :) If it does not comply to the above when submitted, it is
-         * rejected
-         */
-        private final String name;
-
-        /**
-         * The set of plotters that are contained within this graph
-         */
-        private final Set<Plotter> plotters = new LinkedHashSet<Plotter>();
-
-        private Graph(final String name) {
-            this.name = name;
-        }
-
-        /**
-         * Gets the graph's name
-         *
-         * @return the Graph's name
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * Add a plotter to the graph, which will be used to plot entries
-         *
-         * @param plotter the plotter to add to the graph
-         */
-        public void addPlotter(final Plotter plotter) {
-            plotters.add(plotter);
-        }
-
-        /**
-         * Remove a plotter from the graph
-         *
-         * @param plotter the plotter to remove from the graph
-         */
-        public void removePlotter(final Plotter plotter) {
-            plotters.remove(plotter);
-        }
-
-        /**
-         * Gets an <b>unmodifiable</b> set of the plotter objects in the graph
-         *
-         * @return an unmodifiable {@link java.util.Set} of the plotter objects
-         */
-        public Set<Plotter> getPlotters() {
-            return Collections.unmodifiableSet(plotters);
-        }
-
-        @Override
-        public int hashCode() {
-            return name.hashCode();
-        }
-
-        @Override
-        public boolean equals(final Object object) {
-            if (!(object instanceof Graph)) {
-                return false;
-            }
-
-            final Graph graph = (Graph) object;
-            return graph.name.equals(name);
-        }
-
-        /**
-         * Called when the server owner decides to opt-out of BukkitMetrics while the server is running.
-         */
-        protected void onOptOut() {
-        }
     }
 
     /**
