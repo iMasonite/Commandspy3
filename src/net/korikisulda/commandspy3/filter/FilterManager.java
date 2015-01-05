@@ -59,7 +59,7 @@ public class FilterManager {
                 if(!filterFile.exists()) filterFile.createNewFile();
                 YamlConfiguration filterConfig=new YamlConfiguration();
                 filterConfig.load(filterFile);
-                for(String s:filterConfig.getKeys(true)){
+                for(String s:filterConfig.getKeys(false)){
                     filters.put(s,new Filter(filterConfig.getConfigurationSection(s)));
                 }
             } catch (Exception e) {
