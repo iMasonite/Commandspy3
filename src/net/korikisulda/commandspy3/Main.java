@@ -32,8 +32,6 @@ public class Main extends JavaPlugin{
         config=new Config();
         filterManager=new FilterManager(this);
         instance=this;
-        
-        try{ new Metrics(this); }catch(Exception e){}
     }
     
     @Override
@@ -41,6 +39,8 @@ public class Main extends JavaPlugin{
         load();
         Bukkit.getServer().getPluginManager().registerEvents(new EventListener(),this);
         Bukkit.getServer().getPluginCommand("commandspy").setExecutor(new Commands(this));
+        
+        try{new Metrics(this).start();}catch(Exception e){}
     }
     
     @Override
