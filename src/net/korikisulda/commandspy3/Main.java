@@ -18,6 +18,7 @@
 package net.korikisulda.commandspy3;
 
 import net.korikisulda.commandspy3.filter.FilterManager;
+import net.korikisulda.commandspy3.net.Metrics;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,6 +32,8 @@ public class Main extends JavaPlugin{
         config=new Config();
         filterManager=new FilterManager(this);
         instance=this;
+        
+        try{ new Metrics(this); }catch(Exception e){}
     }
     
     @Override
