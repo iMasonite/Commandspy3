@@ -15,34 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* (Original License)
- * 
- * Copyright 2011-2013 Tyler Blair. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification, are
- * permitted provided that the following conditions are met:
- *
- *    1. Redistributions of source code must retain the above copyright notice, this list of
- *       conditions and the following disclaimer.
- *
- *    2. Redistributions in binary form must reproduce the above copyright notice, this list
- *       of conditions and the following disclaimer in the documentation and/or other materials
- *       provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * The views and conclusions contained in the software and documentation are those of the
- * authors and contributors and should not be interpreted as representing official policies,
- * either expressed or implied, of anybody else.
- */
+
 package net.korikisulda.commandspy3.net;
 
 import org.bukkit.Bukkit;
@@ -69,59 +42,37 @@ import java.util.zip.GZIPOutputStream;
 
 public class Metrics {
 
-    /**
-     * The current revision number
-     */
+    //The current revision number
     private final static int REVISION = 7;
 
-    /**
-     * The base url of the metrics domain
-     */
+    //The base url of the metrics domain
     private static final String BASE_URL = "http://report.mcstats.org";
 
-    /**
-     * The url used to report a server's status
-     */
+    //The url used to report a server's status
     private static final String REPORT_URL = "/plugin/%s";
 
-    /**
-     * Interval of time to ping (in minutes)
-     */
+    //Interval of time to ping (in minutes)
     private static final int PING_INTERVAL = 15;
 
-    /**
-     * The plugin this metrics submits for
-     */
+    //The plugin this metrics submits for
     private final Plugin plugin;
 
-    /**
-     * The plugin configuration file
-     */
+    //The plugin configuration file
     private final YamlConfiguration configuration;
 
-    /**
-     * The plugin configuration file
-     */
+    //The plugin configuration file
     private final File configurationFile;
 
-    /**
-     * Unique server id
-     */
+    //Unique server id
     private final String guid;
 
-    /**
-     * Debug mode
-     */
+    //Debug mode
     private final boolean debug;
 
-    /**
-     * Lock for synchronization
-     */
+    //Lock for synchronization
     private final Object optOutLock = new Object();
 
-    /**
-     * The scheduled task
-     */
+    //The scheduled task
     private volatile BukkitTask task = null;
 
     public Metrics(final Plugin plugin) throws IOException {
@@ -155,7 +106,6 @@ public class Metrics {
      * Start measuring statistics. This will immediately create an async repeating task as the plugin and send the
      * initial data to the metrics backend, and then after that it will post in increments of PING_INTERVAL * 1200
      * ticks.
-     *
      * @return True if statistics measuring is running, otherwise false.
      */
     public boolean start() {
@@ -208,7 +158,6 @@ public class Metrics {
 
     /**
      * Has the server owner denied plugin metrics?
-     *
      * @return true if metrics should be opted out of it
      */
     public boolean isOptOut() {
@@ -233,7 +182,6 @@ public class Metrics {
 
     /**
      * Enables metrics for the server by setting "opt-out" to false in the config file and starting the metrics task.
-     *
      * @throws java.io.IOException
      */
     public void enable() throws IOException {
@@ -254,7 +202,6 @@ public class Metrics {
 
     /**
      * Disables metrics for the server by setting "opt-out" to true in the config file and canceling the metrics task.
-     *
      * @throws java.io.IOException
      */
     public void disable() throws IOException {
@@ -276,7 +223,6 @@ public class Metrics {
 
     /**
      * Gets the File object of the config file that should be used to store data such as the GUID and opt-out status
-     *
      * @return the File object for the config file
      */
     public File getConfigFile() {
@@ -427,7 +373,6 @@ public class Metrics {
 
     /**
      * Check if mineshafter is present. If it is, we need to bypass it to send POST requests
-     *
      * @return true if mineshafter is installed on the server
      */
     private boolean isMineshafterPresent() {
@@ -441,7 +386,6 @@ public class Metrics {
 
     /**
      * Appends a json encoded key/value pair to the given string builder.
-     *
      * @param json
      * @param key
      * @param value
@@ -475,7 +419,6 @@ public class Metrics {
 
     /**
      * Escape a string to create a valid JSON string
-     *
      * @param text
      * @return
      */
@@ -521,7 +464,6 @@ public class Metrics {
 
     /**
      * Encode text as UTF-8
-     *
      * @param text the text to encode
      * @return the encoded text, as UTF-8
      */
@@ -548,7 +490,6 @@ public class Metrics {
 
         /**
          * Construct a plotter with a specific plot name
-         *
          * @param name the name of the plotter to use, which will show up on the website
          */
         public Plotter(final String name) {
@@ -559,14 +500,12 @@ public class Metrics {
          * Get the current value for the plotted point. Since this function defers to an external function it may or may
          * not return immediately thus cannot be guaranteed to be thread friendly or safe. This function can be called
          * from any thread so care should be taken when accessing resources that need to be synchronized.
-         *
          * @return the current value for the point to be plotted.
          */
         public abstract int getValue();
 
         /**
          * Get the column name for the plotted point
-         *
          * @return the plotted point's column name
          */
         public String getColumnName() {
