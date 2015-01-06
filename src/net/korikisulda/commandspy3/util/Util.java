@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -77,5 +79,24 @@ public class Util {
         if (part == 0)
             return iStr.substring(0, (iStr.indexOf(delimiter, 0)));
         return iStr.substring(iStr.indexOf(delimiter, 0) + 1, iStr.length());
+    }
+    
+    private static Pattern p=Pattern.compile("^(\\d+)\\.(\\d+)\\.(\\d+)$");
+    
+    public static long getNumericVersion(String versionString){
+        Matcher m=p.matcher(versionString);
+        m.matches();
+        return(Long.parseLong(pad(m.group(1))+pad(m.group(2))+pad(m.group(3))));
+    }
+    
+    public static boolean isValidVersionString(String versionString){
+        return p.matcher(versionString).matches();
+    }
+    
+    private static String pad(String number){
+        if(number.length()==0) return "000";
+        if(number.length()==1) return "00" + number;
+        if(number.length()==2) return "0" + number;
+        return number;
     }
 }

@@ -19,6 +19,7 @@ package net.korikisulda.commandspy3;
 
 import net.korikisulda.commandspy3.filter.FilterManager;
 import net.korikisulda.commandspy3.net.Metrics;
+import net.korikisulda.commandspy3.net.update.UpdateNotifyManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,11 +27,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin{
     private Config config;
     private FilterManager filterManager;
+    private UpdateNotifyManager updateNotifyManager;
     private static Main instance;
     
     public Main(){
         config=new Config();
         filterManager=new FilterManager(this);
+        updateNotifyManager=new UpdateNotifyManager(this);
         instance=this;
     }
     
@@ -41,6 +44,7 @@ public class Main extends JavaPlugin{
         Bukkit.getServer().getPluginCommand("commandspy").setExecutor(new Commands(this));
         
         try{new Metrics(this).start();}catch(Exception e){}
+        updateNotifyManager.updateVersionInformation();
     }
     
     @Override
@@ -54,6 +58,10 @@ public class Main extends JavaPlugin{
     
     public Config getConfigManager(){
         return config;
+    }
+    
+    public UpdateNotifyManager getUpdateNotifyManager(){
+        return updateNotifyManager;
     }
     
     public FilterManager getFilterManager(){

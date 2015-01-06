@@ -28,9 +28,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 
-public class EventListener implements Listener{  
+public class EventListener implements Listener{
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerJoinEvent(PlayerJoinEvent event){
+        Main.getInstance().getUpdateNotifyManager().testNotifySender(event.getPlayer());
+    }
+    
     @EventHandler(priority = EventPriority.MONITOR)
     public void onSignChangeEvent(SignChangeEvent event) throws InvalidObjectException{
         for(Player p:Bukkit.getServer().getOnlinePlayers()){
