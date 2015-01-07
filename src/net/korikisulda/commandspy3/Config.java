@@ -28,5 +28,5 @@ public class Config extends AnnotationConfig{
 @ConfigInclude public String updateURL="http://plugins.korikisulda.net/commandspy/update.yml";
 @ConfigInclude public boolean updateCheck=true;
 @ConfigInclude public boolean updateNotify=true;
-@ConfigInclude public boolean updateNotifyOnlyIfBug=true;
+@ConfigInclude public boolean updateNotifyOnlyIfBug=false;
 }

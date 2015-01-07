@@ -13,8 +13,10 @@ public class VersionEntry extends AnnotationConfig{
     @ConfigInclude public long version=-1l;
     @ConfigInclude public String versionString="";
     
+    @ConfigInclude public String bugsDescription="";
     @ConfigInclude public boolean hasBugs=false;
     @ConfigInclude public boolean hasUpdate=false;
+    @ConfigInclude public boolean isAhead=false;
     
     @ConfigInclude public String dateTimeReleased="";
     
