@@ -64,15 +64,15 @@ public abstract class CommandManager implements CommandExecutor{
         
         if(!(sender instanceof Player)&&c.playerOnly()){
             sender.sendMessage(ChatColor.RED + "This command can only be executed as a player.");
-        }else if(arguments.length>c.maximumArgsLength()){
-            sender.sendMessage(c.usage());
-        }else if(arguments.length<c.minimumArgsLength()){
-            sender.sendMessage(c.usage());
         }else if(!hasPerms(sender,c.permissions())){
             sender.sendMessage(ChatColor.RED + "You do not have permission do do that!");
             for(String p:c.permissions()){
                 sender.sendMessage("- " + p);
             }
+        }else if(arguments.length>c.maximumArgsLength()){
+            sender.sendMessage(c.usage());
+        }else if(arguments.length<c.minimumArgsLength()){
+            sender.sendMessage(c.usage());
         }else{
             //well..... if they're here...
             m.invoke(this, new Object[]{sender,arguments});
