@@ -32,7 +32,7 @@ public class Commands extends CommandManager{
         this.main=main;
     }
 
-    @CommandHandler(maximumArgsLength=0,permissions="")
+    @CommandHandler(maximumArgsLength=0,permissions={})
     public void False(CommandSender sender,String[] args) throws InvalidObjectException{
         if(!main.getFilterManager().hasFilter(sender)){
             sender.sendMessage(ChatColor.RED + "(╯°□°）╯︵ ┻━ɹoɹɹǝ ɹǝs∩━┻");
@@ -41,7 +41,7 @@ public class Commands extends CommandManager{
             sender.sendMessage(ChatColor.GREEN + "Removed parameters.");
         }
     }
-    @CommandHandler(maximumArgsLength=0,permissions="")
+    @CommandHandler(maximumArgsLength=0,permissions={})
     public void off(CommandSender sender,String[] args) throws InvalidObjectException{
         False(sender,args);
     }
