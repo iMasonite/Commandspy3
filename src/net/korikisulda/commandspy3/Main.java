@@ -28,12 +28,14 @@ public class Main extends JavaPlugin{
     private Config config;
     private FilterManager filterManager;
     private UpdateNotifyManager updateNotifyManager;
+    private DatabaseManager databaseManager;
     private static Main instance;
     
     public Main(){
         config=new Config();
         filterManager=new FilterManager(this);
         updateNotifyManager=new UpdateNotifyManager(this);
+        databaseManager = new DatabaseManager(this);
         instance=this;
     }
     
@@ -66,6 +68,10 @@ public class Main extends JavaPlugin{
     
     public FilterManager getFilterManager(){
         return filterManager;
+    }
+    
+    public DatabaseManager getDatabaseManager(){
+        return databaseManager;
     }
     
     public void save(){

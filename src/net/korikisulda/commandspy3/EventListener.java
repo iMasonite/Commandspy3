@@ -33,8 +33,12 @@ import org.bukkit.event.server.ServerCommandEvent;
 
 public class EventListener implements Listener{
     @EventHandler(priority = EventPriority.LOW)
-    public void onPlayerJoinEvent(PlayerJoinEvent event){
+    public void onPlayerJoinEvent(PlayerJoinEvent event) throws InvalidObjectException{
         Main.getInstance().getUpdateNotifyManager().testNotifySender(event.getPlayer());
+
+        if(Main.getInstance().getFilterManager().hasFilter(event.getPlayer())){
+            Main.getInstance().getFilterManager().getFilter(event.getPlayer()).updateUser(event.getPlayer());
+        }
     }
     
     @EventHandler(priority = EventPriority.MONITOR)
@@ -45,6 +49,7 @@ public class EventListener implements Listener{
             }
         }
         if(Main.getInstance().getFilterManager().hasFilter(Bukkit.getConsoleSender())) Main.getInstance().getFilterManager().getFilter(Bukkit.getConsoleSender()).onSignChange(Bukkit.getConsoleSender(), event);
+        Main.getInstance().getDatabaseManager().processSignChange(event);
     }
     
     @EventHandler(priority = EventPriority.MONITOR)
@@ -56,6 +61,7 @@ public class EventListener implements Listener{
                 }
             }
           if(Main.getInstance().getFilterManager().hasFilter(Bukkit.getConsoleSender())) Main.getInstance().getFilterManager().getFilter(Bukkit.getConsoleSender()).onServerCommand(Bukkit.getConsoleSender(), event);
+          Main.getInstance().getDatabaseManager().processServerCommand(event);
     }
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) throws InvalidObjectException{
@@ -67,6 +73,7 @@ public class EventListener implements Listener{
             }
         //Yes. I will change these. It makes me sad. 
         if(Main.getInstance().getFilterManager().hasFilter(Bukkit.getConsoleSender())) Main.getInstance().getFilterManager().getFilter(Bukkit.getConsoleSender()).onPlayerCommand(Bukkit.getConsoleSender(), event);
+        Main.getInstance().getDatabaseManager().processPlayerCommand(event);
     }
     
     private boolean shouldIgnore(String message){

@@ -25,8 +25,20 @@ import net.korikisulda.commandspy3.util.ConfigInclude;
 
 public class Config extends AnnotationConfig{
 @ConfigInclude public List<String> ignore=new ArrayList<String>();
-@ConfigInclude public String updateURL="http://plugins.korikisulda.net/commandspy/update.yml";
+@ConfigInclude public String updateURL="https://eagle.korikisulda.net/commandspy/update.yml";
 @ConfigInclude public boolean updateCheck=true;
 @ConfigInclude public boolean updateNotify=true;
 @ConfigInclude public boolean updateNotifyOnlyIfBug=false;
+
+
+@ConfigInclude public boolean databaseEnabled=false;
+@ConfigInclude public String databaseDriver="com.mysql.jdbc.Driver";
+@ConfigInclude public String databaseAddress="jdbc:mysql://localhost/commandspy?useUnicode=true&characterEncoding=utf-8";
+@ConfigInclude public String databaseUsername="commandspy";
+@ConfigInclude public String databasePassword="";
+
+@ConfigInclude public boolean databaseSigns=true;
+@ConfigInclude public boolean databaseCommands=true;
+@ConfigInclude public boolean databaseServerCommands=true;
+
 }

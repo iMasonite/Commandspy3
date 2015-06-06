@@ -27,6 +27,7 @@ import net.korikisulda.commandspy3.util.AnnotationConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
@@ -45,8 +46,10 @@ public class Filter extends AnnotationConfig{
     
     @ConfigInclude public List<String> ignore=new ArrayList<String>();
     
+    @ConfigInclude(settable=false) public String ownerName;
     
     @ConfigInclude public boolean disable=false;
+    
     public Filter() {
         
     }
@@ -82,6 +85,10 @@ public class Filter extends AnnotationConfig{
         if(disable) return;
         if(ignore.contains(Util.sit(event.getMessage(), ' ', 0))) return;
         if(considerFlags&&commandFlag.equals("*")) s.sendMessage(format(playerCommandNotifyFormat,event.getPlayer().getName(),event.getMessage()));
+    }
+
+    public void updateUser(Player player) {
+        ownerName = player.getName();
     }
     
 }

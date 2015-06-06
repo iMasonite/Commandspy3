@@ -28,6 +28,7 @@ import net.korikisulda.commandspy3.util.CommandHandler;
 
 public class Commands extends CommandManager{
     private Main main;
+    
     public Commands(Main main) {
         this.main=main;
     }
@@ -35,29 +36,29 @@ public class Commands extends CommandManager{
     @CommandHandler(maximumArgsLength=0,permissions={})
     public void False(CommandSender sender,String[] args) throws InvalidObjectException{
         if(!main.getFilterManager().hasFilter(sender)){
-            sender.sendMessage(ChatColor.RED + "(╯°□°）╯︵ ┻━ɹoɹɹǝ ɹǝs∩━┻");
+            sender.sendMessage(ChatColor.RED + "You don't have any filters assigned to you.");
         }else{
             main.getFilterManager().removeFilter(sender);
             sender.sendMessage(ChatColor.GREEN + "Removed parameters.");
         }
     }
-    @CommandHandler(maximumArgsLength=0,permissions={})
-    public void off(CommandSender sender,String[] args) throws InvalidObjectException{
-        False(sender,args);
+    @CommandHandler(maximumArgsLength=0, permissions={})
+    public void off(CommandSender sender, String[] args) throws InvalidObjectException{
+            False(sender,args);
     }
     
-    @CommandHandler(maximumArgsLength=0,permissions="commandspy.set")
-    public void True(CommandSender sender,String[] args) throws InvalidObjectException{
+    @CommandHandler(maximumArgsLength=0, permissions="commandspy.set")
+    public void True(CommandSender sender, String[] args) throws InvalidObjectException{
         main.getFilterManager().setFilter(sender, new Filter("c*"));
         sender.sendMessage(ChatColor.GREEN + "Set commandspying on.");
     }
     
-    @CommandHandler(maximumArgsLength=0,permissions="commandspy.set")
-    public void on(CommandSender sender,String[] args) throws InvalidObjectException{
+    @CommandHandler(maximumArgsLength=0, permissions="commandspy.set")
+    public void on(CommandSender sender, String[] args) throws InvalidObjectException{
         True(sender,args);
     }
     
-    @CommandHandler(maximumArgsLength=0,permissions="commandspy.set")
+    @CommandHandler(permissions="commandspy.set")
     public void set(CommandSender sender,String[] args) throws InvalidObjectException{
         main.getFilterManager().setFilter(sender, new Filter(args));
         sender.sendMessage(ChatColor.GREEN + "Set parameters.");
@@ -84,12 +85,17 @@ public class Commands extends CommandManager{
     @CommandHandler(permissions="commandspy.filter")
     public void filter(CommandSender sender,String[] args) throws InvalidObjectException{
         if(!main.getFilterManager().hasFilter(sender)){
-            sender.sendMessage(ChatColor.RED + "(╯°□°）╯︵ ┻━ɹoɹɹǝ ɹǝs∩━┻");
+            sender.sendMessage(ChatColor.RED + "(ノಠ益ಠ)ノ彡┻━┻");
             sender.sendMessage(ChatColor.RED + "You don't have a filter assigned. Use /commandspy on for a new one.");
         }else{
             main.getFilterManager().getFilter(sender).onCommand(sender, args);
             main.getFilterManager().saveFilters();
         }
+    }
+    
+    @CommandHandler (permissions="commandspy.configuration")
+    public void database (CommandSender sender, String[] args){
+        main.getDatabaseManager().onCommand(sender, args);
     }
     
 }
